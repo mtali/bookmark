@@ -1,8 +1,7 @@
 import os
+from django.urls import reverse_lazy
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
 
 SECRET_KEY = '=x7%ij8c5kbn#26r6qpcm%nyuw=$(#runr1qre(t#u*tgkzx00'
 
@@ -10,7 +9,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
+LOGIN_URL = reverse_lazy('login')
+LOGOUT_URL = reverse_lazy('logout')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
