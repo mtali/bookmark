@@ -1,0 +1,4 @@
+# Exclude python cache files
+*.pyc
+__pycache__
+*.sqlite3
