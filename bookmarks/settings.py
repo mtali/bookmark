@@ -15,6 +15,7 @@ LOGOUT_URL = reverse_lazy('logout')
 
 INSTALLED_APPS = [
     'account',
+    'images',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
