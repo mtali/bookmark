@@ -69,7 +69,7 @@ def image_list(request):
             # if request is ajax and page is out of range return empty response
             return HttpResponse('')
         # if page is out of range deliver the last page
-        images = paginator.page(paginator.num_pages())
+        images = paginator.page(paginator.num_pages)
 
     if request.is_ajax():
         return render(request, 'images/image/list_ajax.html', {'images': images})
