@@ -5,7 +5,8 @@ All application requirements are on requrements.txt.
 You can install all at once with the following command `pip install -r requirements.txt`
 
 ## CACHING
-I did use Redis 4.0.8 running on default port. You will not be able to run this application without redis
+I did use Redis 4.0.8 as caching database running on port 6379.
+You will not be able to run this application without redis
 
 ## Fist launch
 1. Create a super user to access database
