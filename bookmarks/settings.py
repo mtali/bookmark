@@ -20,6 +20,7 @@ ABSOLUTE_URL_OVERRIDES = {
 INSTALLED_APPS = [
     'account',
     'images',
+    'actions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
