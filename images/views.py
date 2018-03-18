@@ -1,3 +1,5 @@
+import redis
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -5,11 +7,16 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.conf import settings
 
 from .forms import ImageCreateForm
 from .models import Image
 from bookmarks.common.decorators import ajax_required
 from actions.utils import create_action
+
+# connect to redis server
+r = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
+
 
 @login_required
 def image_create(request):
@@ -36,9 +43,14 @@ def image_create(request):
 
 def image_detail(request, id, slug):
     image = get_object_or_404(Image, id=id, slug=slug)
+    try:
+        total_views = r.incr('image{}:views'.format(image.id))
+    except redis.ConnectionError:
+        total_views = None
+
     users_likes = image.users_likes.all()
     return render(request, 'images/image/detail.html',
-            {'section': 'images', 'image': image, 'users_likes': users_likes})
+            {'section': 'images', 'image': image, 'users_likes': users_likes, 'total_views': total_views})
 @ajax_required
 @login_required
 @require_POST
