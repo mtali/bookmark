@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile, Contact
 from bookmarks.common.decorators import ajax_required
+from actions.utils import create_action
 
 
 User = get_user_model()
@@ -25,6 +26,9 @@ def register(request):
             user.save()
             # create user profile
             Profile.objects.create(user=user)
+            # create 'create account' action
+            create_action(user, 'has created an account')
+
             return render(request, 'account/registration_done.html', {'new_user': user})
     else:
         form = UserRegistrationForm()
@@ -84,6 +88,7 @@ def user_follow(request):
                     user_from=request.user,
                     user_to=user,
                 )
+                create_action(request.user, 'is following',user)
             else:
                 Contact.objects.filter(user_from=request.user, user_to=user).delete()
             return JsonResponse({'status': 'ok'})
